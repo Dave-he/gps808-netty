@@ -18,6 +18,6 @@ public class SocketRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
      
-        gpsDataService.startServerSocket(18888);
+        gpsDataService.startServerSocket(18885);
     }
 }

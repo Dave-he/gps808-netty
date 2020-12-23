@@ -48,6 +48,21 @@ mybatis-plus:
 
 jt808:
     print-component-statistics: true
-    logging:
-        level: info
-        level.io.github.hylexus: debug
+    protocol:
+        version: auto_detection
+    entity-scan:
+        enabled: true
+        base-packages: com.mapbim.gps.gpssocket.entity.req
+        enable-builtin-entity: true
+        register-builtin-request-msg-converters: true
+    handler-scan:
+        enabled: true
+        base-packages: com.mapbim.gps.gpssocket.handler
+        register-builtin-msg-handlers: true
+    exception-handler-scan:
+        enabled: true
+        base-packages: ${jt808.handler-scan.base-packages:}
+        register-builtin-exception-handlers: true
+logging:
+    level: debug
+    level.jt-808.channel.handler.adapter: debug
