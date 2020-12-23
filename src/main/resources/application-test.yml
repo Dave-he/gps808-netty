@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://rm-8vb68l9y9c4nd343x58870.mysql.zhangbei.rds.aliyuncs.com:3306/test_yongdinghe?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&useSSL=false
+    username: test_yongdinghe
+    password: Dwfs_ydh#*8284(002)
+
+  redis:
+    host: 192.168.99.199
+    port: 6379
+    timeout: 3600
+    password:

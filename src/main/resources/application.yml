@@ -1,4 +1,7 @@
 server:
+    error:
+        whitelabel:
+            enabled: false
     port: 8181
 
 spring:
