@@ -15,6 +15,6 @@ RUN cd /tmp/build && mvn -q -DskipTests=true package \
 
 VOLUME /tmp
 
-EXPOSE 8080
+EXPOSE 8181
 
 ENTRYPOINT ["sh", "/startup.sh"]

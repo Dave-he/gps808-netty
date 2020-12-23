@@ -1,8 +1,50 @@
 server:
     port: 8181
 
+spring:
+#  main:
+#    lazy-initialization: true
+    profiles:
+        active: dev
+    thymeleaf:
+        servlet:
+            content-type: text/html
+        encoding: UTF-8
+        cache: true
+        prefix: classpath:/templates/
+        suffix: .html
+        mode: LEGACYHTML5
+    jackson:
+        date-format: yyyy/MM/dd HH:mm:ss
+        time-zone: Asia/Shanghai
+    servlet:
+        multipart:
+            max-file-size: 2000MB
+            max-request-size: 2000MB
+    jpa:
+        hibernate:
+            ddl-auto: update
+        database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+        database: mysql
+
+swagger:
+  basePackage: com.mapbim.gps.gpssocket.api
+  base-path: /api/**
+  title: 管理系统
+  description:
+  version: V1.0
+  terms-of-service-url: /
+
+mybatis-plus:
+    mapper-locations: classpath*:com/mapbim/gps/gpssocket/mapper/**/*.xml
+    type-aliases-package: com.mapbim.gps.gpssocket.entity
+    configuration:
+        map-underscore-to-camel-case: true #采用驼峰命名 映射下划线字段配置
+    #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
 jt808:
     print-component-statistics: true
-logging:
-    level: info
-    level.io.github.hylexus: debug
+    logging:
+        level: info
+        level.io.github.hylexus: debug
