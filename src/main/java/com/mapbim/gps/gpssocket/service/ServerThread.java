@@ -3,7 +3,7 @@ package com.mapbim.gps.gpssocket.service;
 import java.io.*;
 import java.net.Socket;
 
-import com.mapbim.gps.gpssocket.entity.data.GPSData;
+import com.mapbim.gps.gpssocket.entity.data.GpsData;
 
 /**
  * @description:
@@ -34,7 +34,7 @@ public class ServerThread extends Thread{
             br = new BufferedReader(isr);
             while ((info = br.readLine()) != null) {
                 System.out.println(info);
-                GPSData gpsData = new GPSData();
+                GpsData gpsData = new GpsData();
                 gpsData.setValue(info);
                 gpsData.setValueStatus("1");
                 gpsDataService.save(gpsData);

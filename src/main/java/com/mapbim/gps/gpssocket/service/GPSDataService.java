@@ -5,8 +5,8 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import com.mapbim.gps.gpssocket.entity.data.GPSData;
-import com.mapbim.gps.gpssocket.mapper.GPSDataMapper;
+import com.mapbim.gps.gpssocket.mapper.GpsDataMapper;
+import com.mapbim.gps.gpssocket.entity.data.GpsData;
 
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ import lombok.extern.java.Log;
 
 @Service
 @Log
-public class GPSDataService extends BaseIService<GPSDataMapper, GPSData> {
+public class GPSDataService extends BaseIService<GpsDataMapper, GpsData> {
 
     //0100002D013202012211000200000000373138303100000000000000000000000000000000000000003133323032303101BADA524D323231315F
 

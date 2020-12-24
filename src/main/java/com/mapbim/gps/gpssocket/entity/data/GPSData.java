@@ -26,7 +26,7 @@ import lombok.EqualsAndHashCode;
 @org.hibernate.annotations.Table(appliesTo = "gps_data", comment = "接收数据")
 @Entity
 @JsonIgnoreProperties(value = {"handler", "hibernateLazyInitializer", "fieldHandler"})
-public class GPSData extends UIDEntity{
+public class GpsData extends UIDEntity{
 
     private static final long serialVersionUID = 423153219735635101L;
 
@@ -36,7 +36,7 @@ public class GPSData extends UIDEntity{
 
     @Lob
     @ApiModelProperty(value = "测量值")
-    @Column(columnDefinition = "varchar(255) comment '测量值'")
+    @Column
     private String value;
 
     @ApiModelProperty(value = "测量值状态")

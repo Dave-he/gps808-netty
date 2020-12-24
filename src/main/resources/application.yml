@@ -45,11 +45,13 @@ mybatis-plus:
         map-underscore-to-camel-case: true #采用驼峰命名 映射下划线字段配置
     #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
+socket:
+    enabled: false
 
 jt808:
     print-component-statistics: true
     protocol:
-        version: auto_detection
+        version: auto-detection
     entity-scan:
         enabled: true
         base-packages: com.mapbim.gps.gpssocket.entity.req
@@ -63,6 +65,6 @@ jt808:
         enabled: true
         base-packages: ${jt808.handler-scan.base-packages:}
         register-builtin-exception-handlers: true
-logging:
-    level: debug
-    level.jt-808.channel.handler.adapter: debug
+    logging:
+        level: debug
+        level.jt-808.channel.handler.adapter: debug

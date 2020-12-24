@@ -10,10 +10,16 @@ import io.github.hylexus.jt808.msg.RespMsgBody;
 import io.github.hylexus.jt808.msg.req.BuiltinEmptyRequestMsgBody;
 import io.github.hylexus.jt808.msg.req.BuiltinTerminalCommonReplyMsgBody;
 import io.github.hylexus.jt808.msg.resp.VoidRespMsgBody;
+
+import com.mapbim.gps.gpssocket.entity.data.CarCode;
+import com.mapbim.gps.gpssocket.entity.data.CarLocation;
 import com.mapbim.gps.gpssocket.entity.req.*;
 import com.mapbim.gps.gpssocket.entity.req.LocationUploadRequestMsgBodyDemo01;
 import com.mapbim.gps.gpssocket.entity.resp.RegisterReplyMsgBody;
 import com.mapbim.gps.gpssocket.entity.resp.ServerCommonReplyMsgBody;
+import com.mapbim.gps.gpssocket.service.CarCodeService;
+import com.mapbim.gps.gpssocket.service.CarLocationService;
+
 import io.github.hylexus.jt808.session.Jt808Session;
 import io.github.hylexus.jt808.session.Jt808SessionManager;
 import io.github.hylexus.jt808.session.Session;
@@ -40,10 +46,20 @@ public class CommonHandler {
     @Autowired
     private Jt808SessionManager jt808SessionManager;
 
+    @Autowired
+    private CarCodeService carCodeService;
+    @Autowired
+    private CarLocationService carLocationService;
+
     @Jt808RequestMsgHandlerMapping(msgType = 0x0100, desc = "终端注册")
     public RegisterReplyMsgBody processRegisterMsg(RegisterMsg msg, RequestMsgHeader header) {
         log.info("{}", msg);
-        return new RegisterReplyMsgBody(header.getFlowId(), (byte) 0, "123456");
+        CarCode carCode = carCodeService.getByTerminalId(msg.getRequestMsgHeader().getTerminalId());
+        if(carCode == null){
+            carCode = carCodeService.initCarCode(msg.getRequestMsgHeader().getTerminalId(), msg.getCarIdentifier());
+        }
+
+        return new RegisterReplyMsgBody(header.getFlowId(), (byte) 0, carCode.getCode());
     }
 
     // 此处会覆盖内置的鉴权消息处理器(如果启用了的话)
@@ -75,7 +91,18 @@ public class CommonHandler {
         assert session.getTerminalId().equals(header.getTerminalId());
         assert session.getTerminalId().equals(metadata.getHeader().getTerminalId());
         assert metadata.getHeader() == header;
-
+        CarLocation carLocation = new CarLocation();
+        carLocation.setLat(Double.toString(msgBody.getLat()));
+        carLocation.setLng(Double.toString(msgBody.getLng()));
+        carLocation.setHeight(Integer.toString(msgBody.getHeight()));
+        carLocation.setSpeed(Integer.toString(msgBody.getSpeed()));
+        carLocation.setTime(msgBody.getTime());
+        carLocation.setDirection(Integer.toString(msgBody.getDirection()));
+        carLocation.setTerminalId(header.getTerminalId());
+        CarCode carCode = carCodeService.getByTerminalId(header.getTerminalId());
+        carLocation.setLicensePlate(carCode.getLicensePlate());
+        
+        carLocationService.save(carLocation);
         log.info("处理位置上报消息 terminalId = {}, msgBody = {}", header.getTerminalId(), msgBody);
         // return CommonReplyMsgBody.success(header.getFlowId(), BuiltinJt808MsgType.CLIENT_LOCATION_INFO_UPLOAD);
         return new ServerCommonReplyMsgBody(header.getFlowId(), CLIENT_LOCATION_INFO_UPLOAD.getMsgId(), (byte) 0);
